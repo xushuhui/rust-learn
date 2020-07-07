@@ -16,9 +16,11 @@ func SetupRouter() *gin.Engine {
 	})
 	router.Group("cms")
 	brand := router.Group("brand")
-	{
-		brand.POST("/", middleware.Auth(), api.Brand)
-	}
+	brand.POST("/", middleware.Auth(), api.StoreBrand)
+	brand.PUT("/:id", middleware.Auth(), api.UpdateBrand)
+	brand.GET("/:id", middleware.Auth(), api.ShowBrand)
+	brand.GET("/", middleware.Auth(), api.IndexBrand)
+	brand.DELETE("/:id", middleware.Auth(), api.DestroyBrand)
 
 	return router
 }

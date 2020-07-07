@@ -3,7 +3,7 @@ CREATE TABLE `account_user` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '账号id',
   `email` varchar(30) NOT NULL DEFAULT '' COMMENT '邮箱',
   `phone` varchar(15) NOT NULL DEFAULT '' COMMENT '手机号',
-  `password` varchar(32) NOT NULL DEFAULT '' COMMENT '密码',
+  `password` char(32) NOT NULL DEFAULT '' COMMENT '密码',
   `create_at` int(11) NOT NULL DEFAULT '0' COMMENT '创建时间',
   `create_ip_at` varchar(12) NOT NULL DEFAULT '' COMMENT '创建ip',
   `last_login_at` int(11) NOT NULL DEFAULT '0' COMMENT '最后一次登录时间',
@@ -50,6 +50,7 @@ CREATE TABLE `staff_info` (
     `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '员工id',
     `uid` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '账号id',
     `email` varchar(30) NOT NULL DEFAULT '' COMMENT '员工邮箱',
+     `password` char(32) NOT NULL DEFAULT '' COMMENT '密码',
     `phone` varchar(15) NOT NULL DEFAULT '' COMMENT '员工手机号',
     `name` varchar(30) NOT NULL DEFAULT '' COMMENT '员工姓名',
     `avatar` varchar(255) NOT NULL DEFAULT '' COMMENT '员工头像(相对路径)',
@@ -261,7 +262,7 @@ CREATE TABLE `product_spu_sku_attr_map` (
 
 -- sku库存表 product_sku_stock
 CREATE TABLE `product_sku_stock` (
-    `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增ID',
+
     `sku_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'SKU ID',
     `quantity` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '库存',
     `create_at` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
@@ -269,5 +270,5 @@ CREATE TABLE `product_sku_stock` (
     `update_at` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
     `update_by` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '修改人staff_id',
     `status` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '状态 1:enable, 0:disable, -1:deleted',
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`sku_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='sku库存表';
