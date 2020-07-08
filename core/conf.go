@@ -16,7 +16,7 @@ var (
 	JwtSecret string
 )
 
-func init() {
+func Noinit() {
 	var err error
 	Cfg, err = ini.Load("conf/app.ini")
 	if err != nil {

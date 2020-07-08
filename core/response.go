@@ -1,6 +1,11 @@
 package core
 
-import "github.com/gin-gonic/gin"
+import (
+	"fmt"
+	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
+	errCode "skr-shop-cms-api/code"
+)
 
 // JsonResponse 数据返回通用 JSON 数据结构
 type JsonResponse struct {
@@ -12,12 +17,33 @@ type JsonResponse struct {
 func ParseRequest(c *gin.Context, request interface{}) error {
 	err := c.ShouldBind(request)
 
+	//
+
 	if err != nil {
-		c.JSON(200, JsonResponse{
-			Code:    10004,
-			Message: err.Error(),
-		})
+		validationErrors := err.(validator.ValidationErrors)
+		fmt.Println("err---", validationErrors.Error())
+		ErrorParamsResp(c, validationErrors.Error())
 		return err
 	}
 	return nil
+}
+func FailResp(c *gin.Context, code int) {
+	c.AbortWithStatusJSON(200, JsonResponse{
+		Code:    code,
+		Message: errCode.GetMsg(code),
+	})
+	return
+}
+func ErrorParamsResp(c *gin.Context, msg string) {
+	c.AbortWithStatusJSON(200, JsonResponse{
+		Code:    errCode.InvalidParams,
+		Message: msg,
+	})
+	return
+}
+func SuccessResp(c *gin.Context) {
+	c.JSON(200, JsonResponse{
+		Code:    0,
+		Message: errCode.GetMsg(0),
+	})
 }

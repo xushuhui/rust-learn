@@ -4,12 +4,12 @@ import (
 	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/http/httptest"
-	"skr-shop-cms-api/core"
+	"skr-shop-cms-api/route"
 	"testing"
 )
 
 func TestIndexGetRouter(t *testing.T) {
-	router := core.SetupRouter()
+	router := route.SetupRouter()
 	w := httptest.NewRecorder()
 	req, _ := http.NewRequest(http.MethodGet, "/", nil)
 	router.ServeHTTP(w, req)
