@@ -1,6 +1,8 @@
 package core
 
 import (
+	"encoding/json"
+	"errors"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
@@ -17,12 +19,19 @@ type JsonResponse struct {
 func ParseRequest(c *gin.Context, request interface{}) error {
 	err := c.ShouldBind(request)
 
-	//
-
+	var errStr string
 	if err != nil {
-		validationErrors := err.(validator.ValidationErrors)
-		fmt.Println("err---", validationErrors.Error())
-		ErrorParamsResp(c, validationErrors.Error())
+		switch err.(type) {
+		case validator.ValidationErrors:
+			errStr = Translate(err.(validator.ValidationErrors))
+		case *json.UnmarshalTypeError:
+			unmarshalTypeError := err.(*json.UnmarshalTypeError)
+			errStr = fmt.Errorf("%s 类型错误，期望类型 %s", unmarshalTypeError.Field, unmarshalTypeError.Type.String()).Error()
+		default:
+			errStr = errors.New("unknown error").Error()
+		}
+
+		ErrorParamsResp(c, errStr)
 		return err
 	}
 	return nil
@@ -45,5 +54,12 @@ func SuccessResp(c *gin.Context) {
 	c.JSON(200, JsonResponse{
 		Code:    0,
 		Message: errCode.GetMsg(0),
+	})
+}
+func SetData(c *gin.Context, data interface{}) {
+	c.JSON(200, JsonResponse{
+		Code:    0,
+		Message: errCode.GetMsg(0),
+		Data:    data,
 	})
 }

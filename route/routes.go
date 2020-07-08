@@ -9,6 +9,7 @@ import (
 
 func SetupRouter() *gin.Engine {
 	router := gin.Default()
+
 	router.Use(middleware.Logger(), gin.Recovery())
 	// 添加 Get 请求路由
 	router.GET("/", func(context *gin.Context) {
