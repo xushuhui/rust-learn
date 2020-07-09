@@ -10,7 +10,6 @@ import (
 	"reflect"
 	"strconv"
 	"strings"
-	"time"
 )
 
 //要求to必须已经分配好空间
@@ -401,17 +400,6 @@ func ToInt64Slice(v interface{}) ([]int64, error) {
 	default:
 		return nil, errors.New(fmt.Sprintf("cannot convert %v(%v) to []string", v, reflect.TypeOf(v)))
 	}
-}
-
-func BirthdayToAge(birthday time.Time) int {
-	if birthday.After(Now) {
-		return 0
-	}
-	return int(Now.Year() - birthday.Year())
-}
-
-func AgeToBirthday(Age int) time.Time {
-	return Now.AddDate(-Age, 0, 0)
 }
 
 func Join(v interface{}, sep string) (string, error) {
