@@ -247,7 +247,6 @@ CREATE TABLE `product_sku_stock` (
     `create_by` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '创建人staff_id',
     `update_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     `update_by` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '修改人staff_id',
-    `status` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '状态 1:enable, 0:disable, -1:deleted',
     PRIMARY KEY (`sku_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='sku库存表';
 

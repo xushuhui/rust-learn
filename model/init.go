@@ -1,4 +1,4 @@
-package core
+package model
 
 import (
 	"github.com/jinzhu/gorm"
@@ -6,11 +6,11 @@ import (
 	"log"
 )
 
-var Db *gorm.DB
+var DB *gorm.DB
 
-func init() {
+func InitDB() {
 	var err error
-	Db, err = gorm.Open("mysql", "root:@tcp(127.0.0.1:3306)/sir")
+	DB, err = gorm.Open("mysql", "root:@tcp(127.0.0.1:3306)/skr")
 	if err != nil {
 		log.Panicln("err:", err.Error())
 	}
