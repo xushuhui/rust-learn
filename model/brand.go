@@ -65,20 +65,21 @@ func GetProductBrandsPage(page, limit int64) (list []ProductBrands) {
 	return
 }
 
-func (productBrands *ProductBrands) Create() []error {
-	return DB.Create(&productBrands).GetErrors()
+func (productBrands *ProductBrands) Create() error {
+	return DB.Create(&productBrands).Error
 }
-func UpdateStatus(id string, status uint8) []error {
+func UpdateStatus(id string, status uint8) error {
 	brandModel, _ := GetProductBrandsById(id)
 	brandModel.Status = status
-	return DB.Save(&brandModel).GetErrors()
+	return DB.Save(&brandModel).Error
 }
-func (productBrands *ProductBrands) Update() []error {
-	return DB.Model(&productBrands).Updates(productBrands).GetErrors()
+func (productBrands *ProductBrands) Update() error {
+	return DB.Model(&productBrands).Update(productBrands).Error
+
 }
 func (productBrands *ProductBrands) SoftDelete() {
 
 }
-func (productBrands *ProductBrands) Delete() {
-	DB.Model(productBrands).Delete(productBrands).GetErrors()
+func (productBrands *ProductBrands) Delete() error {
+	return DB.Model(&productBrands).Delete(productBrands).Error
 }

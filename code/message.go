@@ -6,6 +6,7 @@ var MsgFlags = map[int]string{
 	AuthCheckTokenFail:    "Token鉴权失败",
 	AuthCheckTokenTimeout: "Token已超时",
 	ErrorAuthToken:        "Token错误",
+	ErrorPassWord:         "密码错误",
 }
 
 func GetMsg(code int) string {

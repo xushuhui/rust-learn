@@ -33,19 +33,14 @@ func (staffInfo *StaffInfo) TableName() string {
 	return "staff_info"
 }
 
-func GetStaffInfoById(id string) (staffInfo *StaffInfo, err []error) {
-	err = DB.Model(staffInfo).First(staffInfo, staffInfo.GetKey()+" = '"+id+"'").GetErrors()
-	if len(err) > 0 {
-		return
-	}
+func GetStaffInfoById(id string) (staffInfo *StaffInfo, err error) {
+	err = DB.Model(staffInfo).First(staffInfo, staffInfo.GetKey()+" = '"+id+"'").Error
+
 	return
 }
 
-func GetStaffInfoOne(where string, args ...interface{}) (staffInfo *StaffInfo) {
-	err := DB.Model(staffInfo).First(staffInfo, where).GetErrors()
-	if len(err) > 0 {
-		return nil
-	}
+func GetStaffInfoOne(where string, args ...interface{}) (staffInfo *StaffInfo, err error) {
+	err = DB.Model(staffInfo).First(&staffInfo, where, args).Error
 	return
 }
 func GetStaffInfoPage(page, limit int64) (list []StaffInfo) {
@@ -56,8 +51,8 @@ func GetStaffInfoPage(page, limit int64) (list []StaffInfo) {
 	return
 }
 
-func (staffInfo *StaffInfo) Create() []error {
-	return DB.Model(&staffInfo).Create(staffInfo).GetErrors()
+func (staffInfo *StaffInfo) Create() error {
+	return DB.Model(&staffInfo).Create(staffInfo).Error
 }
 
 func (staffInfo *StaffInfo) Update() []error {
