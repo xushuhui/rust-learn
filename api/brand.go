@@ -1,17 +1,19 @@
 package api
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
-	"skr-shop-cms-api/core"
-	"skr-shop-cms-api/model"
-	"skr-shop-cms-api/request"
-	"skr-shop-cms-api/utils"
+	"skrshop-cms-api/core"
+	"skrshop-cms-api/model"
+	"skrshop-cms-api/request"
+	"skrshop-cms-api/utils"
 )
 
-func StoreBrand(context *gin.Context) {
+func StoreBrand(c *gin.Context) {
 	var req request.Brand
 
-	if err := core.ParseRequest(context, &req); err != nil {
+	if err := core.ParseRequest(c, &req); err != nil {
+		c.Error(err)
 		return
 	}
 	uid := uint(1)
@@ -20,58 +22,69 @@ func StoreBrand(context *gin.Context) {
 	if err != nil {
 		return
 	}
-	core.SuccessResp(context)
+	core.SuccessResp(c)
 	return
 }
-func IndexBrand(context *gin.Context) {
+func IndexBrand(c *gin.Context) {
 	data := model.GetProductBrandsPage(1, 10)
-	core.SetData(context, data)
+	core.SetData(c, data)
 	return
 }
-func ShowBrand(context *gin.Context) {
-	id := context.Param("id")
-	data, err := model.GetProductBrandsById(id)
+func ShowBrand(c *gin.Context) {
+	id := c.Param("id")
+	//data, err := model.GetProductBrandsById(id)
+	data, err := model.GetProductBrandsOne("name=?", id)
 	if err != nil {
+		fmt.Println("ttt", err)
+		c.Error(err)
 		return
 	}
-	core.SetData(context, data)
+
+	core.SetData(c, data)
 	return
 }
-func DisableBrand(context *gin.Context) {
-	id := context.Param("id")
+func DisableBrand(c *gin.Context) {
+	id := c.Param("id")
 	err := model.UpdateStatus(id, 0)
 	if err != nil {
+		c.Error(err)
 		return
 	}
-	core.SuccessResp(context)
+	core.SuccessResp(c)
 	return
 }
-func EnableBrand(context *gin.Context) {
-	id := context.Param("id")
+func EnableBrand(c *gin.Context) {
+	id := c.Param("id")
 	err := model.UpdateStatus(id, 1)
 	if err != nil {
+		c.Error(err)
 		return
 	}
-	core.SuccessResp(context)
+	core.SuccessResp(c)
 	return
 }
-func DestroyBrand(context *gin.Context) {
+func DestroyBrand(c *gin.Context) {
 	return
 }
-func UpdateBrand(context *gin.Context) {
+func UpdateBrand(c *gin.Context) {
 	var req request.Brand
 
-	if err := core.ParseRequest(context, &req); err != nil {
+	if err := core.ParseRequest(c, &req); err != nil {
+		c.Error(err)
 		return
 	}
 	uid := uint(1)
-	input := context.Param("id")
+	input := c.Param("id")
 	id, err := utils.StringToUint(input)
 	if err != nil {
 		return
 	}
 	brandModel := &model.ProductBrands{Id: id, Name: req.Name, Desc: req.Desc, LogoUrl: req.LogoUrl, UpdateBy: uid}
-	brandModel.Update()
-	core.SuccessResp(context)
+	err = brandModel.Update()
+	if err != nil {
+		c.Error(err)
+		return
+	}
+	core.SuccessResp(c)
 	return
 }

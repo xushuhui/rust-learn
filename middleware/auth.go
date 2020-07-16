@@ -3,33 +3,11 @@ package middleware
 import (
 	jwt "github.com/appleboy/gin-jwt/v2"
 	"github.com/gin-gonic/gin"
-	"skr-shop-cms-api/api"
-	"skr-shop-cms-api/core"
+	"skrshop-cms-api/core"
 	"time"
 )
 
-func AuthMiddleware() *jwt.GinJWTMiddleware {
-	authMiddleware, err := jwt.New(&jwt.GinJWTMiddleware{
-		Realm:         "Realmname",
-		Key:           []byte("Secretkey"),
-		Timeout:       time.Hour * 12,
-		MaxRefresh:    time.Hour * 24,
-		Authenticator: api.Login,
-		PayloadFunc: func(data interface{}) jwt.MapClaims {
-			return jwt.MapClaims{
-				jwt.IdentityKey: data,
-			}
-
-		},
-		Unauthorized:  jwtUnAuthFunc,
-		LoginResponse: loginResponse,
-
-		// 其他默认
-	})
-	if err != nil {
-		return nil
-	}
-	return authMiddleware
+func AuthMiddleware() {
 
 }
 
@@ -41,7 +19,6 @@ func Auth() gin.HandlerFunc {
 		token := m.(map[string]interface{})
 
 		c.Set("uid", token["uid"])
-		//_ = utils.MapToStruct(claims, &token)
 		c.Next()
 	}
 }

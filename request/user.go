@@ -1,6 +1,6 @@
 package request
 
 type SignIn struct {
-	Phone    string `json:"phone" binding:"required"`
-	Password string `json:"password" binding:"required"`
+	Phone    string `json:"phone" binding:"required,mobile" comment:"手机号"`
+	Password string `json:"password" binding:"required" comment:"密码"`
 }
