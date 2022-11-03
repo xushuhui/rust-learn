@@ -13,12 +13,12 @@ fn main(){
    println!("print {:?}",args);
     spider(&args[0], &args[1]) 
 }
-fn spiderWithError()->Result<(),Box<dyn std::error::Error>>{
+fn spider_with_error()->Result<(),Box<dyn std::error::Error>>{
    let url = "https://www.rust-lang.org/";
    let output = "rust.md"; 
    let body = reqwest::blocking::get(url)?.text()?;
    let md = html2md::parse_html(&body);
-   fs::write(output, md.as_bytes());
+   fs::write(output, md.as_bytes()).unwrap();
    Ok(())
 }
 fn spider(url: &String,output: &String){
