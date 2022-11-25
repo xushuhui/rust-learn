@@ -33,7 +33,7 @@ pub struct Resize {
     #[prost(uint32, tag="1")]
     pub width: u32,
     #[prost(uint32, tag="2")]
-    pub hight: u32,
+    pub height: u32,
     #[prost(enumeration="resize::ResizeType", tag="3")]
     pub r_type: i32,
     #[prost(enumeration="resize::SampleFilter", tag="4")]

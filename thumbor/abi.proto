@@ -16,7 +16,7 @@ message Spec {
 }
 message Resize{
     uint32 width=1;
-    uint32 hight=2;
+    uint32 height=2;
     enum ResizeType {
         NORMAL=0;
         SEAM_CARVE=1;
